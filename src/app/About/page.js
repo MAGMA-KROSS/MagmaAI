@@ -24,7 +24,7 @@ export default function About() {
               At MagmaAI, our mission is to level the playing field for job
               seekers everywhere. We believe that everyone deserves a fair
               chance to land their dream job, regardless of their background or
-              experience. That's why we've created a suite of AI-powered tools
+              experience. That&apos;s why we&apos;ve created a suite of AI-powered tools
               designed to help you craft the perfect resume, optimize your
               LinkedIn profile, and navigate the complexities of modern job
               hunting with confidence.
@@ -36,8 +36,8 @@ export default function About() {
             <p className="text-gray-400 leading-relaxed mb-4">
               MagmaAI was born from a simple observation: the job search process
               is broken. Too often, talented candidates are overlooked because
-              their resumes aren't optimized for Applicant Tracking Systems
-              (ATS) or their online presence doesn't reflect their true
+              their resumes aren&apos;t optimized for Applicant Tracking Systems
+              (ATS) or their online presence doesn&apos;t reflect their true
               potential. We knew there had to be a better way.
             </p>
             <p className="text-gray-400 leading-relaxed">
@@ -67,7 +67,7 @@ export default function About() {
                 and build your professional brand.
               </li>
               <li>
-                <strong>ATS Checker:</strong> Analyze your resume's ATS score
+                <strong>ATS Checker:</strong> Analyze your resume&apos;s ATS score
                 and get actionable tips for keyword optimization to ensure your
                 application gets noticed.
               </li>
