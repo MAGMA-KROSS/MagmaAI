@@ -221,7 +221,7 @@ export default function ResumeBuilder() {
             </legend>
             <div>
               <label htmlFor="role" className={labelClass}>
-                Role You're Applying For
+                Role You&apos;re Applying For
               </label>
               <input
                 type="text"
