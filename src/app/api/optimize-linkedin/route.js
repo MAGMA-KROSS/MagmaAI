@@ -1,20 +1,60 @@
 import { NextResponse } from "next/server";
 
-// This function handles POST requests to the /api/generate-linkedin endpoint
+// This function handles POST requests to the /api/optimize-linkedin endpoint
 export async function POST(request) {
   try {
     // 1. Extract the form data from the request body
     const formData = await request.json();
 
-    // 2. Define a powerful system prompt specifically for a LinkedIn profile
-    const systemPrompt = `You are an expert LinkedIn profile writer and career coach. Your task is to generate an optimized, professional LinkedIn profile based on the user's provided information.
+    // 2. Define a powerful system prompt specifically for a LinkedIn profile in JSON format
+    const systemPrompt = `You are an expert LinkedIn profile writer and career coach. Your task is to generate an optimized, professional LinkedIn profile based on the user's provided information and return it as a JSON object.
 Follow these rules:
-- Create compelling and keyword-rich text for each section (Headline, About, Experience).
+- Create compelling and keyword-rich text for each section.
 - The tone should be professional yet approachable and written in the first person ("I").
-- The "About" section should be a narrative that connects the user's passion (why), skills (what), and identity (who).
-- For "Experience" and "Projects," focus on achievements and impact. Use action verbs and quantify results where possible.
-- Structure the output clearly using Markdown for headings, bold text, and bullet points for readability.
-- **CRITICAL RULE: Under no circumstances should you invent information. Use ONLY the information provided by the user. If a section is empty or not provided, OMIT it from the profile entirely.**`;
+- **About Section Structure:** The "About" section must be an object with "narrative" and "skills" keys. The "narrative" should be a compelling paragraph, and "skills" should be an array of strings.
+- **Experience and Projects:** If the user provides data for Experience or Projects, you MUST include them in the JSON output. Focus on achievements and impact.
+- **Featured Section (Array):** The \`featured\` key must be an array of objects.
+  - **First Item (Mandatory):** Always include an object for the resume with the \`title\` "My Professional Resume" and a compelling \`description\`.
+  - **Second Item (Conditional):** If the user provides "Featured Links," add a second object to the array with a relevant \`title\` and \`description\` for the first link.
+- **CRITICAL RULE:** Use ONLY the information provided by the user. If a section's data is not provided, OMIT that key from the JSON (except for the mandatory resume in the Featured section).
+- **Note:** Include a note about the resume generator at the end.
+
+Return the output as a single JSON object with the following COMPLETE structure, omitting keys only if no data is provided:
+{
+  "headline": "...",
+  "about": {
+      "narrative": "...",
+      "skills": ["..."]
+  },
+  "experience": [
+    {
+      "title": "Software Engineer Intern",
+      "organization": "Tech Company",
+      "dates": "June 2025 - August 2025",
+      "description": "Developed and maintained features for the main application..."
+    }
+  ],
+  "projects": [
+    {
+        "name": "Magma Drive",
+        "stack": "Next.js, Tailwind CSS, Supabase",
+        "description": "A cloud storage application for students and freelancers.",
+        "link": "https://github.com/user/magma-drive"
+    }
+  ],
+  "featured": [
+    {
+      "title": "My Professional Resume",
+      "description": "A comprehensive overview of my skills, experience, and achievements."
+    },
+    {
+      "title": "My Web Development Portfolio",
+      "description": "Explore a collection of my projects showcasing my skills in modern web technologies."
+    }
+  ],
+  "note": "You can also generate a professional, ATS-friendly resume for free on our site!"
+}
+`;
 
     // 3. Conditionally build the user query to avoid sending empty sections to the AI
     let userQuery = `
@@ -95,17 +135,20 @@ Follow these rules:
         .join("\n")}`;
     }
 
-    userQuery += "\n\nBased on all this information, please generate the complete, optimized LinkedIn profile text.";
+    userQuery += "\n\nBased on all this information, please generate the complete, optimized LinkedIn profile text as a JSON object.";
 
     // 4. Set up the Gemini API call
     const apiKey = process.env.GEMINI_API_KEY; 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
     const payload = {
       systemInstruction: {
         parts: [{ text: systemPrompt }],
       },
       contents: [{ parts: [{ text: userQuery }] }],
+       generationConfig: {
+        responseMimeType: "application/json",
+    },
     };
 
     // 5. Make the API call to Gemini
@@ -127,10 +170,10 @@ Follow these rules:
     const result = await response.json();
     const generatedText =
       result.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "Sorry, I couldn't generate a profile. Please try again.";
+      "{}";
 
     // 6. Send the generated profile text back to the frontend
-    return NextResponse.json({ profile: generatedText });
+    return NextResponse.json({ profile: JSON.parse(generatedText) });
   } catch (error) {
     console.error("Server Error:", error);
     return NextResponse.json(

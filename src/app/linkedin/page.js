@@ -1,6 +1,86 @@
 "use client";
 import { useState } from "react";
-import ReactMarkdown from "react-markdown";
+import { FiUser, FiBriefcase, FiCode, FiAward, FiStar, FiBookOpen, FiLinkedin } from 'react-icons/fi';
+
+
+// ... (keep all the code from page.js the same, just replace the ProfileDisplay component)
+
+const ProfileDisplay = ({ profile }) => {
+    if (!profile) return null;
+
+    const sectionClass = "bg-black/30 backdrop-blur-md p-6 rounded-xl border border-white/10 mb-8";
+    const titleClass = "text-2xl font-bold mb-4 text-white flex items-center";
+    const iconClass = "mr-3 text-gray-400";
+
+    return (
+        <div className="prose prose-invert max-w-none">
+            {profile.headline && (
+                <div className={sectionClass}>
+                    <h2 className={titleClass}><FiUser className={iconClass} /> Headline</h2>
+                    <p className="text-lg text-gray-300">{profile.headline}</p>
+                </div>
+            )}
+            {profile.about && (
+                <div className={sectionClass}>
+                    <h2 className={titleClass}><FiBookOpen className={iconClass} /> About</h2>
+                    {profile.about.narrative && <p className="text-gray-300 mb-4">{profile.about.narrative}</p>}
+                    {profile.about.skills && profile.about.skills.length > 0 && (
+                        <>
+                            <h4 className="font-semibold text-white mt-4">Key Skills:</h4>
+                            <ul className="list-disc pl-5 space-y-2 text-gray-400 columns-2">
+                                {profile.about.skills.map((skill, index) => <li key={index}>{skill}</li>)}
+                            </ul>
+                        </>
+                    )}
+                </div>
+            )}
+            {profile.experience && (
+                 <div className={sectionClass}>
+                    <h2 className={titleClass}><FiBriefcase className={iconClass} /> Experience</h2>
+                    {profile.experience.map((exp, index) => (
+                        <div key={index} className="mb-4">
+                            <h3 className="font-semibold text-white">{exp.title} at {exp.organization}</h3>
+                            <p className="text-sm text-gray-500">{exp.dates}</p>
+                            <p className="text-gray-400">{exp.description}</p>
+                        </div>
+                    ))}
+                </div>
+            )}
+             {profile.projects && (
+                <div className={sectionClass}>
+                    <h2 className={titleClass}><FiCode className={iconClass} /> Projects</h2>
+                    {profile.projects.map((proj, index) => (
+                        <div key={index} className="mb-4">
+                           <h3 className="font-semibold text-white">{proj.name}</h3>
+                           <p className="text-sm text-gray-500">{proj.stack}</p>
+                           <p className="text-gray-400">{proj.description}</p>
+                           {proj.link && <a href={proj.link} className="text-blue-400 hover:underline">View Project</a>}
+                        </div>
+                    ))}
+                </div>
+            )}
+            {profile.featured && profile.featured.length > 0 && (
+                <div className={sectionClass}>
+                    <h2 className={titleClass}><FiStar className={iconClass} /> Featured</h2>
+                    <div className="space-y-4">
+                        {profile.featured.map((item, index) => (
+                            <div key={index} className="p-4 border border-gray-800 rounded-md">
+                                <h3 className="font-semibold text-white">{item.title}</h3>
+                                <p className="text-gray-400">{item.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+            {profile.note && (
+                <div className="text-center mt-8 p-4 bg-gray-800/50 rounded-lg">
+                    <p className="text-gray-400">{profile.note}</p>
+                </div>
+            )}
+        </div>
+    )
+};
+
 
 export default function LinkedIn() {
   const [formData, setFormData] = useState({
@@ -75,7 +155,7 @@ export default function LinkedIn() {
   });
 
 
-  const [generatedProfile, setGeneratedProfile] = useState("");
+  const [generatedProfile, setGeneratedProfile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -115,13 +195,12 @@ export default function LinkedIn() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setGeneratedProfile("");
+    setGeneratedProfile(null);
     setError(null);
 
     try {
       // This URL must exactly match the path of your API route file.
-      // The file at /src/app/api/generate-linkedin/route.js corresponds to this URL.
-      const response = await fetch("/api/generate-linkedin", {
+      const response = await fetch("/api/optimize-linkedin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -391,9 +470,7 @@ export default function LinkedIn() {
               Your Optimized LinkedIn Profile
             </h2>
             <div className="bg-black/50 backdrop-blur-md p-6 sm:p-8 rounded-xl border border-white/10 relative">
-              <div className="prose prose-invert max-w-none">
-                <ReactMarkdown>{generatedProfile}</ReactMarkdown>
-              </div>
+               <ProfileDisplay profile={generatedProfile} />
             </div>
           </div>
         )}
