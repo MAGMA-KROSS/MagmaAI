@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased text-white`}
       >
-        <div style={{ position: 'fixed', inset: 0, zIndex: -10 }}>
+        <div className="hidden md:block" style={{ position: 'fixed', inset: 0, zIndex: -10 }}>
           <Plasma mouseInteractive={false} />
         </div>
         <main>
