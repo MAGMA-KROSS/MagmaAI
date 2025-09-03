@@ -1,7 +1,9 @@
+import Link from "next/link";
+
 // components/Hero.js
 export default function Hero() {
   return (
-    <section className="relative flex flex-col items-center justify-center text-center py-28 px-6 overflow-hidden">
+    <section id="Hero" className="relative flex flex-col items-center justify-center text-center py-28 px-6 overflow-hidden">
       {/* Background Glow */}
       <div className="absolute inset-0  blur-3xl" />
 
@@ -14,12 +16,12 @@ export default function Hero() {
       </p>
 
       <div className="mt-10 relative z-10">
-        <a
-          href="/resume"
-          className="px-8 py-4 text-lg font-semibold rounded-xl bg-gradient-to-r from-white to-gray-200 text-black shadow-lg hover:shadow-gray-500/50 hover:scale-105 transition-all duration-600"
+        <Link
+          href="/Resume"
+          className="px-8 py-4 text-lg font-semibold rounded-xl bg-gradient-to-r from-white to-gray-200 text-black shadow-lg hover:shadow-gray-500/50 cursor-pointer hover:scale-105 transition-all duration-600"
         >
           Start Building for Free
-        </a>
+        </Link>
       </div>
     </section>
   );

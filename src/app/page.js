@@ -5,12 +5,14 @@ import Features from "./components/Features";
 import HowItWorks from "./components/HowItWorks";
 import Testimonials from "./components/Testimonials";
 import ContactForm from "./components/ContactForm";
+import CreateResumeCTA from "./components/CreateResumeCTA";
 
 export default function Home() {
   return (
     <>
       <Hero />
       <Features />
+      <CreateResumeCTA/>
       <HowItWorks />
       <Testimonials />
       <main id="Contact" className="relative min-h-screen text-white">

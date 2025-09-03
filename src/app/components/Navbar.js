@@ -8,7 +8,7 @@ function Navbar() {
   return (
     <div className="sticky top-0 z-25 md:p-12">
       {/* Desktop Header */}
-      <header className="text-gray-500 hidden md:block body-font bg-gray-50/10 backdrop-blur-md border-1 border-gray-200/40 rounded-full">
+      <header className="text-gray-500 hidden md:block body-font backdrop-blur-md border-1 border-gray-200/40 rounded-full">
         {/* Added 'backdrop-blur-md' here */}
         <div className="container mx-auto flex flex-wrap p-5 justify-center md:flex-row items-center">
           <Link
@@ -19,14 +19,28 @@ function Navbar() {
           </Link>
           <nav className="md:ml-auto md:mr-auto flex text-white flex-wrap items-center text-base justify-center">
             <Link
-              href="#Home"
+              href="/"
               className="mr-5 hover:text-gray-500 transition-all duration-250 relative group"
             >
               Home
               <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gray-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
             </Link>
             <Link
-              href="#About"
+              href="/Resume"
+              className="mr-5 hover:text-gray-500 transition-all duration-250 relative group"
+            >
+              Resume
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gray-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+            </Link>
+            <Link
+              href="/linkedin"
+              className="mr-5 hover:text-gray-500 transition-all duration-250 relative group"
+            >
+              linkedin
+              <span className="absolute bottom-0 left-0 w-full h-0.5 bg-gray-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span>
+            </Link>
+            <Link
+              href="/About"
               className="mr-5 hover:text-gray-500 transition-all duration-250 relative group"
             >
               About
@@ -34,7 +48,7 @@ function Navbar() {
             </Link>
 
             <Link
-              href="#Contact"
+              href="/#Contact"
               className="mr-5 hover:text-gray-500 transition-all duration-250 relative group"
             >
               Contact
@@ -80,19 +94,31 @@ function Navbar() {
             } relative flex-col text-base justify-center`}
           >
             <Link
-              href="#Home"
+              href="/#Hero"
               className="mr-5 border-1 border-gray-200/40 p-2 pl-5 hover:text-gray-500 text-center transition-all duration-250"
             >
               Home
             </Link>
             <Link
-              href="#About"
+              href="/About"
               className="mr-5 border-1 border-gray-200/40 p-2 pl-5 hover:text-gray-500 text-center transition-all duration-250"
             >
               About
             </Link>
             <Link
-              href="#Contact"
+              href="/Resume"
+              className="mr-5 border-1 border-gray-200/40 p-2 pl-5 hover:text-gray-500 text-center transition-all duration-250"
+            >
+              Resume
+            </Link>
+            <Link
+              href="/linkedin"
+              className="mr-5 border-1 border-gray-200/40 p-2 pl-5 hover:text-gray-500 text-center transition-all duration-250"
+            >
+              linkedin
+            </Link>
+            <Link
+              href="/#Contact"
               className="mr-5 border-1 border-gray-200/40 p-2 pl-5 hover:text-gray-500 text-center transition-all duration-250"
             >
               Contact
